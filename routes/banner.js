@@ -5,19 +5,20 @@ const router = express.Router();
 
 router.get("/:id", (req, res) => {
     const userId = req.params.id;
+    const token = process.env.TOKEN || req.query.token;
 
     axios({
       method: "GET",
       url: `https://discord.com/api/v9/users/${userId}/profile`,
       headers: {
-        "authorization": process.env.TOKEN,
+        "authorization": token,
       },
     })
       .then(response => {
         const bannerId = response.data.user.banner;
   
         if (!bannerId) {
-          res.status(404).send("El usuario no tiene banner");
+          res.status(404).send("User has no banner");
           return;
         }
   
@@ -45,18 +46,17 @@ router.get("/:id", (req, res) => {
               extension = "jpg";
             }
   
-            // Enviar la imagen como respuesta en la API
             res.set("Content-Type", contentType);
             res.send(response.data);
           })
           .catch(error => {
-            console.error("Error en la petición:", error.message);
-            res.status(500).send("Error al obtener la imagen del usuario");
+            console.error("Request Error:", error.message);
+            res.status(500).send("Error retrieving user image");
           });
       })
       .catch(error => {
-        console.error("Error en la petición:", error.message);
-        res.status(500).send("Error al obtener el perfil del usuario");
+        console.error("Request Error:", error.message);
+        res.status(500).send("Error retrieving user profile");
       });
 });
 

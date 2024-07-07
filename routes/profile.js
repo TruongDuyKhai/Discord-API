@@ -5,19 +5,20 @@ const router = express.Router();
 
 router.get("/:id", (req, res) => {
     const userId = req.params.id;
+    const token = process.env.TOKEN || req.query.token;
 
     axios({
         method: "GET",
         url: `https://discord.com/api/v9/users/${userId}/profile`,
         headers: {
-            "authorization": process.env.TOKEN,
+            "authorization": token,
         },
     }).then(response => {
         return res.send(response.data);
     })
     .catch(error => {
-        console.error("Error en la petición:", error.message);
-        return res.status(500).send("Error al obtener el perfil del usuario");
+        console.error("Request Error:", error.message);
+        return res.status(500).send("Error retrieving user profile");
     });
 });
 

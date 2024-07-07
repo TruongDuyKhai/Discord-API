@@ -29,12 +29,11 @@ router.get("/:id", (req, res) => {
             extension = "jpg";
         }
 
-        // Enviar la imagen como respuesta en la API
         res.set("Content-Type", contentType);
         res.send(response.data);
     }).catch(error => {
-        console.error("Error en la petición:", error.message);
-        res.status(500).send("Error al obtener el badge icon");
+        console.error("Request Error:", error.message);
+        res.status(500).send("Error getting badge icon");
     });
 });
 
