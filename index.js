@@ -34,7 +34,6 @@ const { profile, avatar, banner, badge } = require("./routes/routes");
 
 // Default route
 app.get("/", (req, res) => {
-  console.log(req);
   res.send("Welcome to the API to get Discord user's profile, avatar and banner, use /api/profile/:id, /api/avatar/:id or /api/banner/:id to get the information believe");
 });
 app.use('/api/profile', profile);

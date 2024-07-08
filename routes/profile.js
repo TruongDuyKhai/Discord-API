@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/:id", (req, res) => {
     const userId = req.params.id;
-    const token = process.env.TOKEN || req.query.token;
+    const token = req.query.token || process.env.TOKEN;
 
     axios({
         method: "GET",
